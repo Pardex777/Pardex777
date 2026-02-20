@@ -1,38 +1,54 @@
-# ShapePro Ebooks — Landing Page de Alta Conversão
+# Treino SaaS (Flutter + Supabase + Stripe)
 
-Projeto de página de vendas para ebooks de fisiculturismo com foco em:
+Base inicial de aplicativo mobile multiplataforma (Android/iOS) para personal trainers e alunos, com foco em UX simples, performance e escalabilidade.
 
-- Marketing (copy orientada a benefício e CTA)
-- UX (fluxo simples até compra)
-- UI (visual moderno e responsivo)
+## Stack
 
-## Estrutura implementada
+- Flutter (UI nativa e performática)
+- Supabase (auth + PostgreSQL + edge functions)
+- Stripe (assinatura recorrente R$19,90/mês)
+- Arquitetura limpa e modular
 
-- Hero com proposta de valor + CTA principal
-- 3 categorias de ebook: **Dieta**, **Treino** e **Suplementação**
-- Seção de benefícios e prova social
-- Bloco de perguntas dos alunos com envio de novas dúvidas
-- Bloco de feedback com opção positiva e negativa
-- Oferta final (combo) com garantia
+## Estrutura de pastas
 
-## Como acessar o site localmente
+```text
+lib/
+  core/          # Configurações globais, erros, utils, roteamento, contratos de use cases
+  features/      # Módulos por domínio (auth, personal, student)
+  services/      # Integrações externas (Supabase, Stripe)
+  models/        # Modelos de dados da aplicação
+  controllers/   # Estado global/session management
+  theme/         # Design system (tema branco + dourado)
+  components/    # Componentes reutilizáveis
+supabase/
+  schema.sql     # Banco e índices para performance
+  stripe_webhook.ts # Função de webhook para ativar/desativar assinatura
 
-```bash
-python3 -m http.server 4173
+docs/
+  setup.md       # Setup completo de ambiente, Supabase, Stripe e publicação
 ```
 
-Abra no navegador:
+## Funcionalidades base implementadas
 
-- http://localhost:4173
+- Login com email/senha + recuperação de senha
+- Roteamento por perfil (personal/aluno)
+- Área Personal com:
+  - Card de status de assinatura
+  - Ações principais (criar treino, gerenciar alunos, assinatura)
+- Área Aluno estilo catálogo de treinos com cards e botão iniciar
+- Tema visual premium minimalista (branco + dourado)
 
-## Arquivos principais
+## Como rodar
 
-- `index.html` — conteúdo, seções e copy
-- `styles.css` — layout, responsividade e identidade visual
-- `script.js` — interações de perguntas e feedback
+> Pré-requisito: Flutter SDK instalado localmente.
 
-## Próximos passos para produção
+```bash
+flutter pub get
+flutter run \
+  --dart-define=SUPABASE_URL=... \
+  --dart-define=SUPABASE_ANON_KEY=... \
+  --dart-define=STRIPE_PUBLISHABLE_KEY=... \
+  --dart-define=STRIPE_PRICE_ID=...
+```
 
-1. Substituir os links `https://seu-checkout.com/...` pelos seus links reais (Kiwify, Hotmart, etc.).
-2. Conectar formulário de perguntas e feedback a backend/banco de dados.
-3. Instalar pixel/analytics para medir conversão.
+Veja instruções completas em `docs/setup.md`.
